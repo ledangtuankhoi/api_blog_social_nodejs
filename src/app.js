@@ -1,0 +1,53 @@
+import express from 'express'
+const app = express();
+import morgan from 'morgan'
+import cors from 'cors'
+import helmet from 'helmet'
+import "dotenv/config";
+import compression from 'compression';
+import { connect } from '../src/configs/db.js'
+import {userRoutes} from "./routes/user.route.js";
+import { postRoutes } from "./routes/post.route.js";
+
+app.use(cors());
+app.options("*", cors());
+app.use(helmet());
+
+//middleware
+app.use(express.json());
+app.use(morgan("common"));
+
+
+//Routes
+const api = process.env.API_URL;
+
+app.use(`${api}/user`, userRoutes);
+app.use(`${api}/post`, postRoutes);
+
+//DB coapp.use()nnect
+connect();
+
+//compression
+app.use(
+    compression({
+        level: 6,
+        threshold: 10 * 1000,
+        filter: (req, res) => {
+            if (req.headers["x-no-compression"]) {
+                return false;
+            }
+            return compression.filter(req, res);
+        },
+    })
+);
+
+
+app.get("/", (req, res) => {
+    res.send("Server is running!");
+});
+
+//Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running at port ${PORT}`);
+});
