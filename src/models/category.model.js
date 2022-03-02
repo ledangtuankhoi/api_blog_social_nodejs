@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema({
         required: true
     }
 },
-    {timestamp:true}
+    {timestamps :true}
 )
 
 categorySchema.virtual("id").get(function () {
