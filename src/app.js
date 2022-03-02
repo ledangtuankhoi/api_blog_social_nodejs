@@ -8,6 +8,8 @@ import compression from 'compression';
 import { connect } from '../src/configs/db.js'
 import {userRoutes} from "./routes/user.route.js";
 import { postRoutes } from "./routes/post.route.js";
+import { tagRoutes } from "./routes/tag.route.js";
+import { categoryRoutes } from "./routes/category.route.js"
 
 app.use(cors());
 app.options("*", cors());
@@ -23,8 +25,11 @@ const api = process.env.API_URL;
 
 app.use(`${api}/user`, userRoutes);
 app.use(`${api}/post`, postRoutes);
+app.use(`${api}/tag`, tagRoutes);
+app.use(`${api}/category`, categoryRoutes);
 
-//DB coapp.use()nnect
+
+//DB connect
 connect();
 
 //compression
