@@ -24,7 +24,8 @@ export const createUser = async (req, res) => {
     const newUser = new User({
         username: req.body.username,
         email : req.body.email,
-        password : req.body.password,
+        password: req.body.password,
+        avatar: req.body.avatar,
         bio : req.body.bio,
         isAdmin : req.body.isAdmin,
         website : req.body.website,
@@ -49,11 +50,6 @@ export const updateUser = async (req, res) => {
         res.status(400).send('Invalid User Id');
     }
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            res.status(400).send('Invalid User Id')
-        }
-
         const updateUser = await User.findByIdAndUpdate(req.params.id, {
             username: req.body.username,
             email: req.body.email,
@@ -68,7 +64,11 @@ export const updateUser = async (req, res) => {
             linkedin_link: req.body.linkedin_link,
             facebook_link: req.body.facebook_link
         })
-        res.status(200).json(updateUser);
+        res.status(200).json({
+            success: true,
+            message: 'The user is updated!',
+            data: updateUser
+        })
     } catch (error) {
         res.status(500).json({
             success: false,

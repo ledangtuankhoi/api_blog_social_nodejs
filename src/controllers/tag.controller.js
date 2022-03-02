@@ -1,4 +1,5 @@
 import Tag from '../models/tag.model.js';
+import mongoose from 'mongoose';
 
 export const getAllTag = async (req, res) => {
     try {
@@ -31,15 +32,18 @@ export const createTag = async (req, res) => {
 }
 
 export const updateTag = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
-        const tag = await Tag.findById(req.params.id)
-        if (!tag) {
-            res.status(400).send('Invalid Tag Id');
-        }
-
         const updateTag = await Tag.findByIdAndUpdate(req.params.id, {
             name: req.body.name
         })
+        res.status(200).json({
+            success: true,
+            message: 'The tag is updated!',
+            data : updateTag
+        });
     } catch (error) {
         res.status(500).json({
             success: false,

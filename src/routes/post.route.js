@@ -9,6 +9,6 @@ postRoutes.get('', getAllPost);
 postRoutes.get('/:id', getPostById);
 postRoutes.post('', createPost);
 postRoutes.put('/:id', updatePost);
-postRoutes.delete(':/id', deletePost);
+postRoutes.delete('/:id', deletePost);
 
 export { postRoutes };
