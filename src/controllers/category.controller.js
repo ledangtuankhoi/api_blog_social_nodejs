@@ -11,6 +11,9 @@ export const getAllCategory = async (req, res) => {
 }
 
 export const getCategoryById = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
         const category = await Category.findById(req.params.id)
         res.send(category)
@@ -41,8 +44,7 @@ export const updateCategory = async (req, res) => {
         })
         res.status(200).json({
             success: true,
-            message: 'The category is updated!',
-            data: updateCategory
+            message: 'The category is updated!'
         });
     } catch (error) {
         res.status(500).json({
@@ -53,6 +55,9 @@ export const updateCategory = async (req, res) => {
 }
 
 export const deleteCategory = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
         await Category.findByIdAndRemove(req.params.id)
         res.status(200).json({

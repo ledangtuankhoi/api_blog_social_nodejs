@@ -12,6 +12,9 @@ export const getAllUser = async (req, res) => {
 }
 
 export const getUserById = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
         const user = await User.findById(req.params.id)
         res.send(user)
@@ -66,8 +69,7 @@ export const updateUser = async (req, res) => {
         })
         res.status(200).json({
             success: true,
-            message: 'The user is updated!',
-            data: updateUser
+            message: 'The user is updated!'
         })
     } catch (error) {
         res.status(500).json({
@@ -78,6 +80,9 @@ export const updateUser = async (req, res) => {
 }
 
 export const deleteUser = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
         await User.findByIdAndRemove(req.params.id);
         res.status(200).json({ success: true, message: 'The user is deleted'})

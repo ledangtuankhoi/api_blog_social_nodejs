@@ -41,8 +41,7 @@ export const updateTag = async (req, res) => {
         })
         res.status(200).json({
             success: true,
-            message: 'The tag is updated!',
-            data : updateTag
+            message: 'The tag is updated!'
         });
     } catch (error) {
         res.status(500).json({
@@ -53,10 +52,13 @@ export const updateTag = async (req, res) => {
 }
 
 export const deleteTag = async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Tag Id');
+    }
     try {
         await Tag.findByIdAndRemove(req.params.id);
-        res.status(200).json({success:true, message:'The tag is deleted'})
+        res.status(200).json({ success: true, message: 'The tag is deleted' })
     } catch (error) {
-        res.status(500).json({success:false, error:error})
+        res.status(500).json({ success: false, error: error })
     }
 }

@@ -10,6 +10,9 @@ import {userRoutes} from "./routes/user.route.js";
 import { postRoutes } from "./routes/post.route.js";
 import { tagRoutes } from "./routes/tag.route.js";
 import { categoryRoutes } from "./routes/category.route.js"
+import { authJwt } from "./utils/jwt.js";
+import { errorHandler} from "./utils/error-handler.js"
+
 
 app.use(cors());
 app.options("*", cors());
@@ -18,7 +21,8 @@ app.use(helmet());
 //middleware
 app.use(express.json());
 app.use(morgan("common"));
-
+app.use(authJwt());
+app.use(errorHandler);
 
 //Routes
 const api = process.env.API_URL;
