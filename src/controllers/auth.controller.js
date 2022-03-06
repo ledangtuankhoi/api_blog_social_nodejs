@@ -28,13 +28,16 @@ export const login = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
-            return res.status(400).send("Email or Password is wrong")
+            return res.status(400).json({
+                success: false,
+                message:"Invalid Email"
+            })
         }
         const secret = process.env.secret;
         const password = req.body.password
         const validPass = await bcrypt.compare(password, user.password)
         if (!validPass) {
-            return res.status(400).send("Invalid Password")
+            return res.status(400).json({ success: false, message: "Invalid Password" })
         }
 
         if (user && validPass) {
