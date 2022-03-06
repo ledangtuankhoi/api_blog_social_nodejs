@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "babel src/app.js -d dist",
-    "start": "yarn run build && nodemon src/app.js"
+    "build": "babel src/app.js -d dist && npm run build",
+    "start": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
