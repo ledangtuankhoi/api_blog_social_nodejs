@@ -13,6 +13,13 @@ export const getAllPost = async (req, res) => {
     }
 }
 
+// export const getPostByAuthor = async (req, res) => {
+//     try {
+//         const post = await Post.findById
+//     }
+// }
+
+
 export const getPostById = async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) {
         res.status(400).send('Invalid Tag Id');
@@ -98,6 +105,23 @@ export const deletePost = async (req, res) => {
     try {
         await Post.findByIdAndRemove(req.params.id);
         res.status(200).json({ success: true, message: 'The post is deleted'})
+    } catch (error) {
+        res.status(500).json({ success: false, error: error})
+    }
+}
+
+export const searchPost = async (req, res) => {
+    try {
+        const searchData = await Post.find(
+            {
+                "$or": [
+                    { title: { $regex: req.params.key }},
+                    { author: { $regex: req.params.key }},
+                    
+                ]
+            }
+        )
+        res.send(searchData)
     } catch (error) {
         res.status(500).json({ success: false, error: error})
     }
