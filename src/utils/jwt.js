@@ -15,6 +15,7 @@ export const authJwt = () => {
             { url: /\api\/post(.*)/, methods: ['GET', 'OPTIONS'] },
             `${api}/user/register`,
             `${api}/user/login`,
+            `${api}/user/refreshToken`,
         ]
     })
 }
