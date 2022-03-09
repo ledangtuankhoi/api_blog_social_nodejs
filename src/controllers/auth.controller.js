@@ -88,15 +88,15 @@ export const refreshToken = async (req, res) => {
             });
         }
 
-        if (!refreshToken.includes(refreshToken)) {
-            return res.status(403).json({
-                errors: [
-                    {
-                        message: "Invalid refresh token",
-                    }
-                ]
-            })
-        }
+        // if (!refreshTokens.includes(refreshToken)) {
+        //     return res.status(403).json({
+        //         errors: [
+        //             {
+        //                 message: "Invalid refresh token",
+        //             }
+        //         ]
+        //     })
+        // }
     try {
         const secret = process.env.secret
         const refresh_token_secret = process.env.secret

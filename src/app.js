@@ -11,12 +11,17 @@ import { postRoutes } from "./routes/post.route.js";
 import { tagRoutes } from "./routes/tag.route.js";
 import { categoryRoutes } from "./routes/category.route.js"
 import { authJwt } from "./utils/jwt.js";
-import { errorHandler} from "./utils/error-handler.js"
+import { errorHandler } from "./utils/error-handler.js"
+import fileUpload from 'express-fileupload';
+import { uploadRoutes } from './routes/upload.js';
 
 
 app.use(cors());
 app.options("*", cors());
 app.use(helmet());
+app.use(fileUpload({
+    useTempFiles: true
+}))
 
 //middleware
 app.use(express.json());
@@ -31,6 +36,7 @@ app.use(`${api}/user`, userRoutes);
 app.use(`${api}/post`, postRoutes);
 app.use(`${api}/tag`, tagRoutes);
 app.use(`${api}/category`, categoryRoutes);
+app.use(`${api}/upload`, uploadRoutes);
 
 
 //DB connect

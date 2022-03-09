@@ -23,7 +23,7 @@ export const getUserById = async (req, res) => {
     }
 }
 
-export const createUser = async (req, res) => {
+export const createUser =  async (req, res) => {
     const newUser = new User({
         username: req.body.username,
         email : req.body.email,
@@ -37,7 +37,7 @@ export const createUser = async (req, res) => {
         country : req.body.country,
         github_link : req.body.github_link,
         linkedin_link : req.body.linkedin_link,
-        facebook_link : req.body.facebook_link
+        facebook_link: req.body.facebook_link,
     });
     try {
         const result = await newUser.save();

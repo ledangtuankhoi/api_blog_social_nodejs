@@ -9,13 +9,14 @@ export const authJwt = () => {
         isRevoked: isRevoked
     }).unless({
         path: [
-            { url: /\api\/user(.*)/, methods: ['GET','OPTIONS'] },
+            { url: /\api\/user(.*)/, methods: ['GET','POST','OPTIONS'] },
             { url: /\api\/category(.*)/, methods: ['GET','OPTIONS'] },
             { url: /\api\/tag(.*)/, methods: ['GET', 'OPTIONS'] },
             { url: /\api\/post(.*)/, methods: ['GET', 'OPTIONS'] },
             `${api}/user/register`,
             `${api}/user/login`,
             `${api}/user/refreshToken`,
+            `${api}/upload`,
         ]
     })
 }
