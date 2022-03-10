@@ -19,9 +19,9 @@ uploadRoutes.post('',(req, res) =>{
             return res.status(400).json({msg: "File format is incorrect."})
         }
 
-        cloudinary.v2.uploader.upload(file.tempFilePath, { folder: "blog_social" }, (err,result) => {
-            //console.log(result)
-            if(err) throw err;
+        cloudinary.v2.uploader.upload(file.tempFilePath, { folder: "blog_social" }, (result) => {
+            console.log(result)
+            //if(err) throw err;
             removeTmp(file.tempFilePath)
             res.json({public_id: result.public_id, url: result.secure_url})
         })
