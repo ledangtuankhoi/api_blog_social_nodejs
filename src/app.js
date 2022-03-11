@@ -15,7 +15,6 @@ import { errorHandler } from "./utils/error-handler.js"
 import fileUpload from 'express-fileupload';
 import { uploadRoutes } from './routes/upload.js';
 
-
 app.use(cors());
 app.options("*", cors());
 app.use(helmet());
@@ -37,7 +36,6 @@ app.use(`${api}/post`, postRoutes);
 app.use(`${api}/tag`, tagRoutes);
 app.use(`${api}/category`, categoryRoutes);
 app.use(`${api}/upload`, uploadRoutes);
-
 
 //DB connect
 connect();
