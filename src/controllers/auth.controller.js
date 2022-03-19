@@ -30,6 +30,9 @@ export const register = async (req, res) => {
     }
 }
 
+
+let refreshTokens = [];
+
 export const login = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
@@ -56,7 +59,6 @@ export const login = async (req, res) => {
                 { expiresIn: "1d" }
             );
             
-            let refreshTokens = [];
             const refreshToken = jwt.sign(
                 {
                     id: user._id,
@@ -77,7 +79,7 @@ export const login = async (req, res) => {
 }
 
 export const refreshToken = async (req, res) => {
-        const refreshToken = req.header("x-auth-token");
+    const refreshToken = req.header("x-auth-token");
         if (!refreshToken) {
             return res.status(401).json({
                 errors: [
@@ -88,18 +90,19 @@ export const refreshToken = async (req, res) => {
             });
         }
 
-        // if (!refreshTokens.includes(refreshToken)) {
-        //     return res.status(403).json({
-        //         errors: [
-        //             {
-        //                 message: "Invalid refresh token",
-        //             }
-        //         ]
-        //     })
-        // }
+        if (!refreshTokens.includes(refreshToken)) {
+            return res.status(403).json({
+                errors: [
+                    {
+                        message: "Invalid refresh token",
+                    }
+                ]
+            })
+        }
     try {
         const secret = process.env.secret
         const refresh_token_secret = process.env.secret
+        
         const user = jwt.verify(
             refreshToken,
             refresh_token_secret
@@ -109,9 +112,14 @@ export const refreshToken = async (req, res) => {
             { email },
             secret,
             { expiresIn: "1d" }
-            
         );
-        res.status(200).json({accessToken})
+
+        const newRefreshToken = jwt.sign(
+            { email },
+            secret,
+            { expiresIn: "7d" }
+        );
+        res.status(200).json({accessToken: accessToken, refreshToken: newRefreshToken})
     } catch (error) {
         return res.status(403).json({
             errors: [

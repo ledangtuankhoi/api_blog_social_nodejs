@@ -1,4 +1,5 @@
 import expressJwt from "express-jwt";
+import jwt from "jsonwebtoken";
 
 export const authJwt = () => {
     const secret = process.env.secret;
@@ -26,4 +27,25 @@ async function isRevoked(req, payload, done) {
         done(null, true)
     }
     done();
+}
+
+export const sign = (object, options) => {
+    return jwt.sign(object, process.env.secret, options)
+}
+
+export const decode = (token) => {
+    try{
+        const decoded = jwt.verify(token, process.env.secret);
+        return {
+            valid: true,
+            expired: false,
+            decoded,
+        };
+    }catch(error){
+        return {
+            valid: false,
+            expired: error.message === 'jwt expired',
+            decoded: null,
+        }
+    }
 }

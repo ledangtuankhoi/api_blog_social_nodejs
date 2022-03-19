@@ -13,13 +13,6 @@ export const getAllPost = async (req, res) => {
     }
 }
 
-// export const getPostByAuthor = async (req, res) => {
-//     try {
-//         const post = await Post.findById
-//     }
-// }
-
-
 export const getPostById = async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) {
         res.status(400).send('Invalid Tag Id');
@@ -124,5 +117,17 @@ export const searchPost = async (req, res) => {
         res.send(searchData)
     } catch (error) {
         res.status(500).json({ success: false, error: error})
+    }
+}
+
+//Like or Dislike a Post
+export const like = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post.likes.includes(req.body.author)) {
+            await post.update
+        }
+    } catch (error) {
+        res.status(500).json(err)
     }
 }

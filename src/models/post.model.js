@@ -32,6 +32,25 @@ const postSchema = mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Tag",
             }
+        ],
+        likes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
+        comments: [
+            {
+                text: String,
+                created_at: {
+                    type: Date,
+                    default: Date.now
+                },
+                author: {
+                    type: mongoose.Schema.ObjectId,
+                    ref: "User"
+                }
+            }
         ]
     },
     {timestamps: true}
