@@ -10,6 +10,8 @@ export const authJwt = () => {
         isRevoked: isRevoked
     }).unless({
         path: [
+            // { url: /\api\/user\/unfollow\/(.*)/, methods: ['PUT'] },
+            // { url: /\api\/user\/follow\/(.*)/, methods: ['PUT'] },
             { url: /\api\/user(.*)/, methods: ['GET','OPTIONS'] },
             { url: /\api\/category(.*)/, methods: ['GET','OPTIONS'] },
             { url: /\api\/tag(.*)/, methods: ['GET', 'OPTIONS'] },

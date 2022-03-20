@@ -95,11 +95,14 @@ export const deleteUser = async (req, res) => {
 export const follow = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        const currentUser = await User.findById(req.body._id);
-        if (!user.followers.includes(req.body._id)) {
+
+        const currentUser = await User.findById(req.body.currentUserId);
+        
+        
+        if (!user.followers.includes(req.body.currentUserId)) {
             await user.updateOne({
                 $push: {
-                    followers: req.body._id
+                    followers: req.body.currentUserId
                 }
             })
             await currentUser.updateOne({
@@ -109,7 +112,7 @@ export const follow = async (req, res) => {
             })
             return res.status(200).json({
                 success: true,
-                message: "User has been followed"
+                message: "User has been followed!"
             })
         } else {
             return res.status(403).json({
@@ -125,11 +128,12 @@ export const follow = async (req, res) => {
 export const unfollow = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        const currentUser = await User.findById(req.body._id);
-        if (user.followers.includes(req.body._id)) {
+        const currentUser = await User.findById(req.body.currentUserId);
+
+        if (user.followers.includes(req.body.currentUserId)) {
             await user.updateOne({
                 $pull: {
-                    followers: req.body._id
+                    followers: req.body.currentUserId
                 }
             });
             await currentUser.updateOne({
@@ -144,7 +148,7 @@ export const unfollow = async (req, res) => {
         } else {
             return res.status(403).json({
                 success: false,
-                message: "You don't follow this user"
+                message: "You don't follow this user!"
             })
         }
     } catch (error) {
@@ -160,7 +164,7 @@ export const getFriends = async (req, res) => {
             user.followings.map((friendId) => {
                 return User.findById(friendId);
             })
-        );
+        )
         let friendList = [];
         friends.map((friend) => {
             const { _id, username, avatar } = friend;
